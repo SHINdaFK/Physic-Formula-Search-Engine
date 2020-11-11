@@ -1,12 +1,13 @@
 from tkinter import *
 import random
 import sys
-import o
+import os
 import numpy as np
 root = Tk()
 root.geometry("800x600")
 
 class JIWOO:
+    
     def possible(grid,y,x,n):
         for i in range(0,9):
             if grid[y][i] == n:
