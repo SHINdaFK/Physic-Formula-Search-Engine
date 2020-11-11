@@ -7,19 +7,16 @@ root = Tk()
 root.geometry("800x600")
 
 class JIWOO:
-    def __init__(self):
-
-
     grid = [
-        [0,0,0,7,0,0,0,0,0],
-        [1,0,0,0,0,0,0,0,0],
-        [0,0,0,4,3,0,2,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,6],
-        [0,0,0,5,0,9,0,0,0],
-        [0,0,0,0,0,0,4,1,8],
-        [0,0,0,0,8,1,0,0,0],
-        [0,0,2,0,0,0,0,5,0],
-        [0,4,0,0,0,0,3,0,0]
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0]
     ]
 
     def possible(y,x,n):
@@ -58,16 +55,27 @@ class SudokuGUI:
     def __init__(self, hello):
         hello.title("Sudoku_Solver")
         my_font = ("Airal", 18)
-        self.entry_box = []
-        for i in range(9):
-            sudoku_board += [[0, 0, 0, 0, 0, 0, 0 , 0, 0]]
-            for i in range(9):
-                for j in range (9):
-                    self.entry_box = Entry(hello, font = my_font, bg = "white", highlightcolor = "yellow", borderwidth = 1, width = 2, cursor = 'star', highlightthickness = 1, highlightbackground = 'black', textvar = retrieve_input[i][j])
-                    self.entry_box.grid(row = [i], columnn = [j])
-        entry_box.pack()
+        self.entry_box = [
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,6],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0]
+        ]
 
-        entry_box.focus_set()
+        for i in range(9):
+            for j in range (9):
+                self.entry_box[i][j] = Entry(hello, font = my_font, bg = "white", highlightcolor = "yellow", borderwidth = 1, width = 2, cursor = 'star', highlightthickness = 1, highlightbackground = 'black', textvariable = retrieve_input[i][j])
+                self.entry_box[i][j].grid(row = [i], columnn = [j])
+                self.entry_box[i][j].bind('<Motion>', self.correctGrid)
+                self.entry_box[i][j].bind('<FocusIn>', self.correctGrid)
+                self.entry_box[i][j].bind('<Button-1>', self.correctGrid)
+                self.entry_box[i][j].grid(row=i, column=j)
+
 
         menu = Menu(hello)
         file = Menu(menu)
@@ -77,14 +85,36 @@ class SudokuGUI:
         menu.add_cascade(hello, label = "Menu", menu=file)
         main.config(menu=menu)
 
-def storing_numbers(self):
-    pass
+    def restart_program(self):
+        for x in range (0, 10):
+            for y in range (0, 10):
+                retrieve_input[i][j].set("")
+    def correctGrid(self, event):
+        for i in range(9):
+            for j in range(9):
+                if savedNumbers[i][j].get() == '':
+                    continue
+                if len(savedNumbers[i][j].get()) > 1 or savedNumbers[i][j].get() not in ['1','2','3','4','5','6','7','8','9']:
+                    savedNumbers[i][j].set('')
 
-def restart_program(self):
-    pass
 
-def solve_sudoku(self):
-    solution = JIWOO()
+    def solve_sudoku(self):
+        solution = JIWOO()
+
+retrieve_input = [        
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0]
+        ]
+for i in range (0, 10):
+    for j in range (0, 10):
+        retrieve_input = StringVar(root)
 
 b = SudokuGUI(root)
 root.mainloop()
