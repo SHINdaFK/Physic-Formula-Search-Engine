@@ -1,26 +1,13 @@
 from tkinter import *
 import random
 import sys
-import os
+import o
 import numpy as np
 root = Tk()
 root.geometry("800x600")
 
 class JIWOO:
-    grid = [
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,6],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0]
-    ]
-
-    def possible(y,x,n):
-        global grid
+    def possible(grid,y,x,n):
         for i in range(0,9):
             if grid[y][i] == n:
                 return False
@@ -35,21 +22,31 @@ class JIWOO:
                     return False
         return True
 
-    def solve():
-        global grid
+    def solve(grid):
         for y in range(9):
             for x in range(9):
                 if grid[y][x] == 0:
                     for n in range(1,10):
-                        if possible(y,x,n):
+                        if self.possible(y,x,n):
                             grid[y][x] = n
-                            solve()
+                            self.solve(grid)
                             grid[y][x] = 0
                     return
-        print(np.matrix(grid))
-        input("MOrE? ")
+        return grid 
 
-    solve()
+
+
+retrieve_input = [        
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0]
+        ]
 
 class SudokuGUI:
     def __init__(self, hello):
@@ -99,19 +96,9 @@ class SudokuGUI:
 
 
     def solve_sudoku(self):
-        solution = JIWOO()
+        JIWOO.solve(retrieve_input)
 
-retrieve_input = [        
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0]
-        ]
+
 for i in range (0, 10):
     for j in range (0, 10):
         retrieve_input = StringVar(root)
