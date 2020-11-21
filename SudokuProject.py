@@ -22,38 +22,73 @@ for i in range (0, 9):
         retrieve_input[i][j] = StringVar(root)
 
 class JIWOO():
-    def __init__(self):
-        self.possible
-        self.solve
+    
 
-    def possible(self):
-        global retrieve_input
-        for i in range(0,9):
-            if retrieve_input[y][i] == n:
+    def __init__(self):
+        self.allZero()
+        self.startSolution()
+
+
+
+    def allZero(self):
+        for i in range(9):
+            for j in range(9):
+                if retrieve_input[i][j].get() not in ['1','2','3','4','5','6','7','8','9']:
+                    retrieve_input[i][j].set(0)
+
+
+
+    def startSolution(self, i=0, j=0):
+        i,j = self.findNextCellToFill(i, j)
+
+
+        if i == -1:
+            return True
+        for e in range(1,10):
+            if self.isValid(i,j,e):
+                retrieve_input[i][j].set(e)
+                if self.startSolution(i, j):
+                    return True
+
+                retrieve_input[i][j].set(0)
+        return False
+
+
+    def findNextCellToFill(self, i, j):
+
+        for x in range(i,9):
+            for y in range(j,9):
+                if retrieve_input[x][y].get() == '0':
+                    return x,y
+
+        for x in range(0,9):
+            for y in range(0,9):
+                if retrieve_input[x][y].get() == '0':
+                    return x,y
+
+        return -1,-1
+
+
+    def isValid(self, i, j, e):
+
+        for x in range(9):
+            if retrieve_input[i][x].get() == str(e):
                 return False
-        for i in range(0,9):
-            if retrieve_input[i][x] == n:
+
+        for x in range(9):
+            if retrieve_input[x][j].get() == str(e):
                 return False
-        x0 = (x//3)*3
-        y0 = (y//3)*3
-        for i in range(0,3):
-            for j in range(0,3):
-                if retrieve_input[y0+i][x0+j] == n:
+        secTopX, secTopY = 3 *int((i/3)), 3 *int((j/3))
+        for x in range(secTopX, secTopX+3):
+            for y in range(secTopY, secTopY+3):
+                if retrieve_input[x][y].get() == str(e):
                     return False
+        
         return True
 
-    def solve(self):
-        global retrieve_input
-        for y in range(9):
-            for x in range(9):
-                if retrieve_input[y][x] == 0:
-                    for n in range(1,10):
-                        if possible(y,x,n):
-                            retrieve_input[y][x] = n
-                            solve()
-                            retrieve_input[y][x] = 0
-                    return
-        print(np.matrix(retrieve_input))
+
+
+
 
 class SudokuGUI():
     def __init__(self, hello):
@@ -96,7 +131,7 @@ class SudokuGUI():
     def restart_program(self):
         for x in range (9):
             for y in range (9):
-                retrieve_input[i][j].set("")
+                retrieve_input[x][y].set("")
 
 
 
@@ -111,8 +146,7 @@ class SudokuGUI():
 
     def solve_sudoku(self):
         solution = JIWOO()
-
-
+        
 
 b = SudokuGUI(root)
 root.mainloop()
